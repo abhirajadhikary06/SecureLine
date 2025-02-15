@@ -4,10 +4,40 @@ from .models import HarassmentReport
 from .forms import HarassmentReportForm
 from geopy.geocoders import Nominatim
 import json
-from .crime_prediction import predict_crime_hotspot
+from scipy.stats import gaussian_kde
+#from reports.crime_prediction import predict_crime_hotspot  # ✅ Absolute Import
+import numpy as np  # Add this line at the top
+
+
+def predict_crime_hotspot():
+    # Get all reports with latitude & longitude
+    reports = HarassmentReport.objects.exclude(latitude=None, longitude=None)
+
+    if reports.count() < 3:  # Ensure enough data points for KDE
+        return None  # Not enough data to predict
+
+    # Convert data into numpy array
+    locations = np.array([[report.latitude, report.longitude] for report in reports]).T  # Transpose for KDE
+
+    # Apply Kernel Density Estimation (KDE)
+    kde = gaussian_kde(locations)
+
+    # Evaluate density at all reported locations
+    densities = kde(locations)
+
+    # Get indices of the top 20 highest densities
+    sorted_indices = np.unique(np.argsort(densities)[::-1])[:20]  # Sort in descending order and pick top 20
+
+    # Get the top 20 hotspot locations
+    hotspots = []
+    for index in sorted_indices:
+        hotspot_lat, hotspot_lng = locations[:, index]
+        hotspots.append({'lat': hotspot_lat, 'lng': hotspot_lng, 'title': f"Hotspot {index+1}", 'description': "Predicted crime hotspot"})
+    
+    return hotspots
 
 def home(request):
-    # Get all reports from the database
+    # Get predicted hotspots
     reports = HarassmentReport.objects.all()
     
     # Convert reports to a format suitable for JavaScript
@@ -18,14 +48,11 @@ def home(request):
             'location': report.location,
             'type': report.harassment_type
         } for report in reports
-    ]
-       
-    # Get predicted hotspot
+    ]  # Ensuring empty list if None
     predicted_hotspot = predict_crime_hotspot()
-
     context = {
-        'reports': json.dumps(reports_data),
-        'hotspot': json.dumps(predicted_hotspot) if predicted_hotspot else None
+        'reports': json.dumps(reports_data) , # Pass the formatted hotspots data
+        'hotspot': json.dumps(predicted_hotspot)
     }
 
     return render(request, 'home.html', context)

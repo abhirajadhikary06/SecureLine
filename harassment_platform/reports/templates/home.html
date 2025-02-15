@@ -446,10 +446,21 @@
         }
 
         // Initialize Hotspot Map
-        var hotspotMap = L.map('hotspot-map').setView([22.5726, 88.3639], 12);
+        // Dynamically inject the hotspot data from Django into JavaScript
+var hotspotsData = JSON.parse('{{ hotspot | escapejs }}');
+
+// Initialize the map
+        var hotspotMap = L.map('hotspot-map').setView([22.5726, 88.3639], 12); // Set default coordinates
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
         }).addTo(hotspotMap);
+
+        // Loop through each hotspot and add markers to the map
+        hotspotsData.forEach(function(hotspot) {
+            L.marker([hotspot.lat, hotspot.lng])
+                .addTo(hotspotMap)
+                .bindPopup("<b>" + hotspot.title + "</b><br>" + hotspot.description);
+        });
 
         try {
             const hotspot = JSON.parse('{{ hotspot|safe }}');

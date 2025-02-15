@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.stats import gaussian_kde
+from django.shortcuts import render
 from .models import HarassmentReport
+import json
 
 def predict_crime_hotspot():
     # Get all reports with latitude & longitude
@@ -18,8 +20,13 @@ def predict_crime_hotspot():
     # Evaluate density at all reported locations
     densities = kde(locations)
 
-    # Find the highest density location (the most probable next hotspot)
-    max_density_index = np.argmax(densities)
-    hotspot_lat, hotspot_lng = locations[:, max_density_index]
+    # Get indices of the top 20 highest densities
+    sorted_indices = np.argsort(densities)[::-1][:20]  # Sort in descending order and pick top 20
 
-    return {'lat': hotspot_lat, 'lng': hotspot_lng}
+    # Get the top 20 hotspot locations
+    hotspots = []
+    for index in sorted_indices:
+        hotspot_lat, hotspot_lng = locations[:, index]
+        hotspots.append({'lat': hotspot_lat, 'lng': hotspot_lng})
+
+    return hotspots
