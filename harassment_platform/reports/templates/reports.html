@@ -1,5 +1,4 @@
 {% load static %}
-<!-- reports.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +13,8 @@
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
-            background: #000000;
-            color: #fff;
+            background: linear-gradient(to bottom, #3a6073, #162529); /* Subtle Gradient Background */
+            color: #f0f0f0;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
@@ -26,30 +25,39 @@
         }
 
         .title {
-            color: rgb(215, 29, 29);
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.8);
+            font-size: 2.5rem;
             text-align: center;
-            margin-bottom: 20px;
+            color: #ffffff; /* White Heading */
+            -webkit-text-stroke: 1px #4ecdc4; /* Neon outline */
+            text-shadow: 0 0 10px #4ecdc4, 0 0 20px #4ecdc4; /* Neon glow */
+            position: relative;
+            z-index: 2;
+            animation: pulse-neon 2s infinite alternate; /* Neon Pulse Animation */
+            margin-bottom: 20px; /* Add margin for spacing */
         }
 
         .filter-section {
-            background-color: rgba(255, 0, 0, 0.2);
+            background-color: rgba(22, 43, 51, 0.8); /* Slightly transparent form background */
+            border: 1px solid #4ecdc4; /* Neon border */
+            border-radius: 10px;
             padding: 1.5rem;
-            border: 1px solid #8B0000;
-            border-radius: 6px;
-            margin-top: 195px
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.5); /* Neon glow */
+            margin-top: 20px; /* Adjust margin for spacing */
         }
+
 
         .container {
             display: flex;
             gap: 1.5rem;
             align-items: flex-start;
+            padding: 20px; /* Add padding to container */
         }
 
         .input {
-            background-color: #1e1e1e;
+            background-color: rgba(0, 0, 0, 0.5); /* Dark transparent input background */
+            border: 1px solid #4ecdc4;
             color: #f0f0f0;
-            border: 1px solid #ff4d4d;
+            border-radius: 5px;
         }
 
         .input::placeholder {
@@ -57,19 +65,54 @@
         }
 
         .button.is-primary, .button.is-link, .button.is-light {
-            background-color: #8B0000; /* Dark red */
-            border-color: #8B0000;
-            color: white;
+            position: relative;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: color 0.3s ease, border-color 0.3s ease, transform 0.2s; /* Added transform transition */
+            font-weight: bold;
+            background: linear-gradient(to right, #4ecdc4, #556270); /* Gradient button background */
+            border: none;
+            color: #000; /* Dark text for button */
+            box-shadow: 0 0 5px rgba(78, 205, 196, 0.8); /* Subtle glow */
+        }
+
+        .button.is-primary::before, .button.is-link::before, .button.is-light::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(212, 252, 121, 0.5), transparent, rgba(78, 205, 196, 0.5)); /* Shimmer gradient */
+            transition: left 0.5s ease;
+            z-index: 0;
+        }
+
+        .button.is-primary:hover::before, .button.is-link:hover::before, .button.is-light:hover::before {
+            left: 100%;
         }
 
         .button.is-primary:hover, .button.is-link:hover, .button.is-light:hover {
-            background-color: #FF6347; /* Light red for hover */
-            border-color: #FF6347;
-            color: white;
+            color: #fff; /* White text on hover */
+            box-shadow: 0 0 10px rgba(212, 252, 121, 1); /* Stronger glow on hover */
+            transform: translateY(-2px); /* Slight lift on hover */
+        }
+
+        .button.is-primary:active, .button.is-link:active, .button.is-light:active {
+            transform: translateY(0); /* No lift when button is active/pressed */
+            box-shadow: 0 0 5px rgba(212, 252, 121, 0.8); /* Reset glow when active */
+        }
+
+
+        .button.is-primary span, .button.is-link span, .button.is-light span {
+            position: relative;
+            z-index: 1;
         }
 
         .media-left .image img {
-            border: 2px solid #FF0000;
+            border: 2px solid #4ecdc4; /* Neon border for profile images */
             transition: transform 0.3s ease-in-out; /* Image zoom effect */
         }
 
@@ -78,49 +121,53 @@
         }
 
         .report-header span {
-            color: #FF6347;
+            color: #d4fc79; /* Neon green for report header spans */
+            text-shadow: 0 0 5px #d4fc79; /* Neon glow for header spans */
         }
 
         .report-header span:not(:last-child)::after {
+            content: " | ";
             color: #f0f0f0;
         }
 
         .report-description {
             color: #f0f0f0;
+            text-shadow: 0 0 2px #000;
         }
 
         /* Reports Section - Now wider and non-transparent */
         .reports-section {
-            background-color: none; /* Solid dark red background */
+            background-color: rgba(22, 43, 51, 0.8); /* Slightly transparent form background */
+            border: 1px solid #4ecdc4; /* Neon border */
+            border-radius: 10px;
             padding: 2rem; /* Increased padding */
-            border: none; /* Removed border */
-            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.5); /* Neon glow */
             width: 100%; /* Full width */
             max-width: 1200px; /* Max width to avoid stretch */
             margin: 0 auto; /* Centering the section */
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Optional shadow for depth */
+            margin-top: 20px; /* Adjust margin for spacing */
         }
 
        /* Footer */
        footer {
             text-align: center;
             padding: 10px;
-            background: rgb(27, 27, 27);
-            color: white;
+            background: linear-gradient(to top, #162529, #2c4251); /* Gradient footer */
+            color: #f0f0f0;
             position: relative;
             width: 100%;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-            margin-top: auto; /* Ensures footer stays at the bottom */
+            margin-top: auto;
         }
 
         footer a {
-            color: #FF6347; /* Vibrant orange-red */
+            color: #d4fc79; /* Neon green footer links */
             text-decoration: none;
             font-weight: bold;
         }
 
         footer a:hover {
-            color: #FF4500; /* Slightly darker red for hover */
+            color: #ffffff; /* White on hover */
             text-decoration: underline;
         }
 
@@ -132,12 +179,12 @@
         }
 
         footer a {
-            color: #FF6347;
+            color: #d4fc79;
             text-decoration: none;
         }
 
         footer a:hover {
-            color: #FF4500;
+            color: #ffffff;
             text-decoration: underline;
         }
 
@@ -152,20 +199,30 @@
         .heading-divider {
             width: 80px;
             height: 4px;
-            background: linear-gradient(90deg, #FFD700, #FF4500, #FFD700); /* Gold to red gradient */
+            background: linear-gradient(90deg, #4ecdc4, #d4fc79); /* Neon Gradient Divider */
             margin: 15px auto;
             border-radius: 10px;
-            background-size: 200% 100%; /* Necessary for shimmer effect */
-            animation: shimmer 2s infinite linear; /* Animated shimmer */
+            animation: shimmer 2s infinite linear;
         }
 
         /* Shimmer Animation */
-        @keyframes shimmer {
+        @keyframes pulse-neon {
             0% {
-                background-position: 0% 50%;
+                text-shadow: 0 0 10px #4ecdc4, 0 0 20px #4ecdc4;
+                -webkit-text-stroke: 1px #4ecdc4;
             }
             100% {
-                background-position: 100% 50%;
+                text-shadow: 0 0 20px #4ecdc4, 0 0 40px #4ecdc4;
+                -webkit-text-stroke: 1px #d4fc79;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200px 0;
+            }
+            100% {
+                background-position: 200px 0;
             }
         }
 
@@ -178,6 +235,7 @@
             .container {
                 flex-direction: column;
                 gap: 1rem;
+                padding: 10px; /* Adjust container padding for smaller screens */
             }
 
             .reports-section {
@@ -194,7 +252,6 @@
 <body>
     <section class="section">
         <div class="container">
-            <!-- Filter Section -->
             <div class="filter-section">
                 <form method="get">
                     <div class="field">
@@ -215,10 +272,9 @@
                 </form>
             </div>
 
-            <!-- Reports Section -->
             <div class="reports-section">
                 <h1 class="title">List of Crime Reports</h1>
-                
+
                 <div class="heading-divider"></div>
                 <div class="buttons">
                     <a class="button is-link" href="{% url 'report_submission' %}">Submit a Report</a>
@@ -236,9 +292,9 @@
                             <div class="media-content">
                                 <div class="content">
                                     <div class="report-header">
-                                        <span><b>{{ report.location }}</b></span> |
-                                        <span><b>{{ report.harassment_type }}</b></span> |
-                                        <span><b>{{ report.date|date:"M. j, Y" }}</b></span> |
+                                        <span><b>{{ report.location }}</b></span>
+                                        <span><b>{{ report.harassment_type }}</b></span>
+                                        <span><b>{{ report.date|date:"M. j, Y" }}</b></span>
                                         <span><b>{{ report.time|time:"g:i a" }}</b></span>
                                     </div>
                                     <p class="report-description">
@@ -253,10 +309,9 @@
         </div>
     </section>
 
-    <!-- Footer Section -->
     <section>
         <footer>
-            <p>Made with <span>❤️</span> by <b>Glitch Goblins</b> team</p>
+            <p>Made with <span>❤️</span> by <b>Quantum Coders</b> team</p>
         </footer>
     </section>
 </body>

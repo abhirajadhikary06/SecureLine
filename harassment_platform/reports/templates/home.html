@@ -9,22 +9,21 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-
         /* General Styling */
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
-            background: black;
-            color: #fff;
+            background: linear-gradient(to bottom, #3a6073, #162529); /* Subtle Gradient Background */
+            color: #f0f0f0;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
         }
 
         body {
-            flex: 1; /* Ensures body takes up remaining space */
+            flex: 1;
         }
 
         /* Navbar Styling */
@@ -33,18 +32,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 120px; 
+            height: 120px;
         }
-        
+
         /* Navbar Logo Styling */
         #navbar-logo {
             height: 120px;
-            width: auto; 
-            max-height: 100%; 
+            width: auto;
+            max-height: 100%;
             transition: transform 0.3s ease-in-out;
             margin-bottom: -5px;
         }
-        
 
         /* Navbar Logo Styling */
         .navbar-item {
@@ -52,32 +50,31 @@
             justify-content: center;
             align-items: center;
         }
-        
-        /* Enhanced Heading Styles */
 
+        /* Enhanced Heading Styles */
         .hero-body {
             background: transparent;
             width: 100%;
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 300px; 
-        }
-        
-        #id-buttons-hero {
-            display: flex; 
+            display: flex;
             justify-content: center;
-            gap: 10px; 
+            align-items: center;
+            height: 300px;
+        }
+
+        #id-buttons-hero {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
         }
 
         .hero.is-info.is-bold {
-            background: transparent; 
-            box-shadow: none; 
-            border: none; 
+            background: transparent;
+            box-shadow: none;
+            border: none;
         }
-        
+
         .title, .subtitle, .sub-info {
-            color: white; 
+            color: #f0f0f0;
         }
 
         .heading-container {
@@ -87,56 +84,51 @@
         }
 
         #heading {
-            font-size: 3rem; /* Larger font size */
-            color:rgb(221, 9, 9); /* Gold text */
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5); /* Glowing effect */
+            font-size: 3rem;
+            color: #ffffff; /* White Heading */
+            -webkit-text-stroke: 1px #4ecdc4; /* Neon outline */
+            text-shadow: 0 0 10px #4ecdc4, 0 0 20px #4ecdc4; /* Neon glow */
             position: relative;
-            z-index: 2; /* Ensure heading is above divider */
+            z-index: 2;
+            animation: pulse-neon 2s infinite alternate; /* Neon Pulse Animation */
         }
-        
+
         .subtitle {
-            color:rgb(255, 255, 255); /* Slightly softer red */
+            color: #d4fc79; /* Neon Green Subtitle */
             font-size: 1.2rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            text-shadow: 0 0 5px #d4fc79, 0 0 10px #d4fc79; /* Neon glow */
             margin-bottom: 10px;
         }
-        
+
         .sub-info {
             font-size: 1rem;
-            color:rgb(255, 255, 255);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* Subtle glow */
+            color: #ffffff;
+            text-shadow: 0 0 3px #f0f0f0;
             margin-top: 10px;
         }
-        
+
         /* Divider Styling */
         .heading-divider {
             width: 80px;
             height: 4px;
-            background: linear-gradient(90deg, #FFD700, #FF4500, #FFD700); /* Gold to red gradient */
+            background: linear-gradient(90deg, #4ecdc4, #d4fc79); /* Neon Gradient Divider */
             margin: 15px auto;
             border-radius: 10px;
-            animation: shimmer 2s infinite linear; /* Animated shimmer */
+            animation: shimmer 2s infinite linear;
         }
-        
+
         /* Shimmer Animation */
-        @keyframes pulse {
+        @keyframes pulse-neon {
             0% {
-                transform: scale(1);
-                text-shadow: 0 0 10px rgba(255, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.5);
-            }
-            50% {
-                transform: scale(1.05);
-                text-shadow: 0 0 20px rgb(90, 8, 8), 0 0 40px rgba(0, 0, 0, 0.8);
+                text-shadow: 0 0 10px #4ecdc4, 0 0 20px #4ecdc4;
+                -webkit-text-stroke: 1px #4ecdc4;
             }
             100% {
-                transform: scale(1);
-                text-shadow: 0 0 10px rgba(255, 215, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.5);
+                text-shadow: 0 0 20px #4ecdc4, 0 0 40px #4ecdc4;
+                -webkit-text-stroke: 1px #d4fc79;
             }
         }
-        
-        .heading-style {
-            animation: pulse 3s infinite;
-        }
+
 
         @keyframes shimmer {
             0% {
@@ -146,77 +138,56 @@
                 background-position: 200px 0;
             }
         }
-        
+
         .shimmer-effect {
             background: linear-gradient(
                 90deg,
-                rgba(255, 0, 0, 0.1) 25%,  /* Light red */
-                rgba(255, 215, 0, 0.5) 50%, /* Golden */
-                rgba(255, 0, 0, 0.1) 75%   /* Light red */
+                rgba(78, 205, 196, 0.1) 25%,
+                rgba(212, 252, 121, 0.5) 50%,
+                rgba(78, 205, 196, 0.1) 75%
             );
-            background-size: 400px 100%; /* Determines the shimmer width */
+            background-size: 400px 100%;
             animation: shimmer 3s infinite;
-            color: #fff; /* Text color on top of shimmer */
-            padding: 10px 20px; /* Optional styling */
-            border-radius: 5px; /* Optional styling */
-            display: inline-block; /* Ensure it works with content */
+            color: #f0f0f0;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
         }
 
         /* Map Styling */
-        #map {
+        #map, #hotspot-map {
             height: 600px;
             width: 85vw;
             margin: 10px;
             position: relative;
-            background: #000; /* Dark background to make the glow stand out */
+            background: rgba(22, 43, 51, 0.8); /* Slightly transparent map background */
             border-radius: 10px;
-            overflow: hidden; /* Prevents the glow from spilling outside */
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); /* Initial subtle red glow */
-            animation: glow 1.5s infinite alternate; /* Glow animation */
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.5); /* Neon glow */
+            animation: glow-map 1.5s infinite alternate;
+            border: 1px solid #4ecdc4; /* Neon border */
         }
-        
-        @keyframes glow {
+
+        @keyframes glow-map {
             0% {
-                box-shadow: 0 0 15px rgba(255, 0, 0, 0.5), 0 0 10px rgba(255, 0, 0, 0.3); /* Initial glow */
-            }
-            50% {
-                box-shadow: 0 0 25px rgba(255, 0, 0, 1), 0 0 20px rgba(255, 0, 0, 0.7); /* Increased intensity */
+                box-shadow: 0 0 10px rgba(78, 205, 196, 0.5), 0 0 5px rgba(78, 205, 196, 0.3);
+                border-color: #4ecdc4;
             }
             100% {
-                box-shadow: 0 0 35px rgba(255, 0, 0, 1), 0 0 30px rgba(255, 0, 0, 0.6); /* Stronger glow */
+                box-shadow: 0 0 20px rgba(78, 205, 196, 1), 0 0 15px rgba(78, 205, 196, 0.7);
+                border-color: #d4fc79;
             }
         }
 
-        #hotspot-map {
-            height: 600px;
-            width: 85vw;
-            margin: 10px;
-            position: relative;
-            background: #000; /* Dark background to make the glow stand out */
-            border-radius: 10px;
-            overflow: hidden; /* Prevents the glow from spilling outside */
-            box-shadow: 0 0 15px rgba(0, 255, 8, 0.5); /* Initial subtle red glow */
-            animation: glow-2 1.5s infinite alternate; /* Glow animation */
-        }
-
-        @keyframes glow-2 {
-            0% {
-                box-shadow: 0 0 15px rgba(0, 255, 8, 0.5), 0 0 10px rgba(0, 255, 8, 0.3); /* Initial glow */
-            }
-            50% {
-                box-shadow: 0 0 25px rgba(0, 255, 8, 1), 0 0 20px rgba(0, 255, 8, 0.7); /* Increased intensity */
-            }
-            100% {
-                box-shadow: 0 0 35px rgba(0, 255, 8, 1), 0 0 30px rgba(0, 255, 8, 0.6); /* Stronger glow */
-            }
-        }
 
         .map-heading {
-            font-size: 3rem; /* Larger font size */
-            color:rgba(0, 255, 8); /* Gold text */
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5); /* Glowing effect */
+            font-size: 3rem;
+            color: #ffffff;
+            -webkit-text-stroke: 1px #4ecdc4; /* Neon outline */
+            text-shadow: 0 0 10px #4ecdc4, 0 0 20px #4ecdc4; /* Neon glow */
             position: relative;
-            z-index: 2; /* Ensure heading is above divider */
+            z-index: 2;
+            animation: pulse-neon 2s infinite alternate; /* Neon Pulse Animation */
         }
 
         /* Quote Section */
@@ -225,47 +196,52 @@
             float: right;
             padding: 20px;
             margin: 20px;
-            background: rgba(255, 0, 0, 0.2); /* Transparent red overlay */
+            background: rgba(78, 205, 196, 0.2); /* Neon green overlay */
             border-radius: 15px;
-            border: 2px solid #8B0000; /* Deep red border */
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); /* Glowing effect */
+            border: 2px solid #4ecdc4; /* Neon border */
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.6);
         }
 
         .quote-section h2 {
-            color: #FF4500; /* Vibrant orange-red for the quotes heading */
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.8);
+            color: #ffffff;
+            -webkit-text-stroke: 1px #d4fc79; /* Neon outline */
+            text-shadow: 0 0 5px #d4fc79, 0 0 10px #d4fc79; /* Neon glow */
             text-align: center;
+            animation: pulse-neon 2s infinite alternate; /* Neon Pulse Animation */
         }
 
         .quote-section p {
             font-size: 1.2rem;
             font-style: italic;
-            color:rgb(255, 255, 255); /* Light red for quotes */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Subtle shadow */
+            color: #f0f0f0;
+            text-shadow: 0 0 2px #000;
             margin: 10px 0;
             text-align: justify;
         }
 
-        /* Styling for lines beside the map */
+        /* Info Section */
         .info-section {
-            width: 35%; /* Adjust width to fit beside the map */
+            width: 35%;
             float: right;
             padding: 20px;
             margin: 20px;
-            background: rgba(0, 0, 0, 0.5); /* Transparent black overlay */
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 15px;
-            border: 2px solid #8B0000; /* Deep red border */
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); /* Glowing effect */
-            color: #FFF; /* White text for readability */
-            font-size: 1rem; /* Slightly larger font size */
-            line-height: 1.6; /* Improve readability */
+            border: 2px solid #4ecdc4; /* Neon border */
+            box-shadow: 0 0 15px rgba(78, 205, 196, 0.6);
+            color: #f0f0f0;
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
         .info-section h3 {
-            color: #FF4500; /* Vibrant orange-red for heading */
+            color: #ffffff;
+            -webkit-text-stroke: 1px #d4fc79; /* Neon outline */
+            text-shadow: 0 0 5px #d4fc79, 0 0 10px #d4fc79; /* Neon glow */
             text-align: center;
             margin-bottom: 15px;
             font-size: 1.5rem;
+            animation: pulse-neon 2s infinite alternate; /* Neon Pulse Animation */
         }
 
         .info-section ul {
@@ -285,110 +261,108 @@
             width: 100%;
             padding: 20px;
         }
-            
-            /* Buttons */
-            .button {
-                position: relative;
-                background-color:rgb(210, 0, 0);
-                color: white;
-                padding: 10px 20px;
-                font-size: 16px;
-                border: 2px solidrgb(156, 62, 0);
-                border-radius: 5px;
-                overflow: hidden;
-                transition: color 0.3s ease, border-color 0.3s ease;
-                font-weight: bold;
-            }
-            
-            .button::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(45deg,rgb(255, 0, 0),rgb(0, 0, 0),rgb(122, 6, 6)); /* New colors for the gradient */
-                transition: left 0.5s ease;
-                z-index: 0;
-            }
-            
-            .button:hover::before {
-                left: 100%; /* Move the gradient across the button */
-            }
-            
-            .button:hover {
-                color: #000000; /* Change text color to black for contrast */
-                border-color:rgb(255, 217, 0); /* Highlight the border */
-            }
-            
-            .button span {
-                position: relative;
-                z-index: 1; /* Keeps text above the gradient animation */
-            }
-            
-            /* Footer */
+
+        /* Buttons */
+        .button {
+            position: relative;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: color 0.3s ease, border-color 0.3s ease;
+            font-weight: bold;
+            background: linear-gradient(to right, #4ecdc4, #556270); /* Gradient button background */
+            border: none;
+            color: #000; /* Dark text for button */
+            box-shadow: 0 0 5px rgba(78, 205, 196, 0.8); /* Subtle glow */
+        }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(212, 252, 121, 0.5), transparent, rgba(78, 205, 196, 0.5)); /* Shimmer gradient */
+            transition: left 0.5s ease;
+            z-index: 0;
+        }
+
+        .button:hover::before {
+            left: 100%;
+        }
+
+        .button:hover {
+            color: #fff; /* White text on hover */
+            box-shadow: 0 0 10px rgba(212, 252, 121, 1); /* Stronger glow on hover */
+        }
+
+        .button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer */
         footer {
-                text-align: center;
-                padding: 10px;
-                background: rgb(27, 27, 27);
-                color: white;
-                position: relative;
-                width: 100%;
-                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-                margin-top: auto; /* Ensures footer stays at the bottom */
-            }
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(to top, #162529, #2c4251); /* Gradient footer */
+            color: #f0f0f0;
+            position: relative;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            margin-top: auto;
+        }
 
-            footer a {
-                color: #FF6347; /* Vibrant orange-red */
-                text-decoration: none;
-                font-weight: bold;
-            }
+        footer a {
+            color: #d4fc79; /* Neon green footer links */
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-            footer a:hover {
-                color: #FF4500; /* Slightly darker red for hover */
-                text-decoration: underline;
-            }
+        footer a:hover {
+            color: #ffffff; /* White on hover */
+            text-decoration: underline;
+        }
 
-            /* Clear Floats */
-            .clearfix::after {
-                content: "";
-                display: table;
-                clear: both;
-            }
+        /* Clear Floats */
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
 
-            footer a {
-                color: #FF6347;
-                text-decoration: none;
-            }
+        footer a {
+            color: #d4fc79;
+            text-decoration: none;
+        }
 
-            footer a:hover {
-                color: #FF4500;
-                text-decoration: underline;
-            }
+        footer a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-<!-- Navbar Section -->
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="#" onmouseover="this.style.background='transparent'" onmouseout="this.style.background='transparent'"></a>
-            <img src="{% static 'images/logo.png' %}" alt="Logo" id="navbar-logo" />
+            {% comment %} <img src="{% static 'images/logo.png' %}" alt="Logo" id="navbar-logo" /> {% endcomment %}
         </a>
     </div>
 </nav>
 
-<!-- Hero Section -->
 <section class="hero is-info is-bold">
     <div class="hero-body">
         <div class="container">
-            <!-- Enhanced Heading -->
             <div class="heading-container">
                 <h1 class="title heading-style" id="heading">
-                    Crime Reports Map
+                    Harassment Reports Map
                 </h1>
-                <p class="subtitle">Stay informed and contribute to safer communities.</p>
+                <p class="subtitle">Keep updated and help build safer neighborhoods.</p>
                 <div class="heading-divider"></div>
-                <p class="sub-info">Track incidents, report concerns, and empower change.</p>
+                <p class="sub-info">Monitor events, voice worries, and enable transformation.</p>
             </div>
             <div class="buttons" id="id-buttons-hero">
                 <a href="{% url 'report_submission' %}" class="button is-primary">Submit a Report</a>
@@ -398,43 +372,38 @@
     </div>
 </section>
 
-<!-- Main Map and Quotes Section -->
 <section class="section">
     <div class="map-and-info clearfix">
-        <!-- Map Section -->
         <div class="map-container" id="map"></div>
-        <!-- Hotspot Map Section -->
         <h1 class="map-heading title heading-style">AI-Powered Crime Hotspots</h1>
         <div class="map-container" id="hotspot-map"></div>
     </div>
 </section>
 
-<!-- Footer Section -->
 <footer>
-    <p>Made with <span>❤️</span> by <b>Glitch Goblins</b> team</p>
+    <p>Made with <span>❤️</span> by <b>Quantum Coders</b> team</p>
 </footer>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    
+
     <script>
         // Initialize Map
         var map = L.map('map').setView([22.5726, 88.3639], 12);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
         }).addTo(map);
-    
+
         try {
             const reports = JSON.parse('{{ reports|safe }}');
             reports.forEach(report => {
-                if (report.lat && report.lng) {  // Check if coordinates exist
+                if (report.lat && report.lng) {
                     const circle = L.circle([report.lat, report.lng], {
-                        color: 'red',
-                        fillColor: '#f03',
-                        fillOpacity: 0.1,
+                        color: 'blue', /* Neon Circle Color */
+                        fillColor: '#4ecdc4',
+                        fillOpacity: 0.3,
                         radius: 50
                     }).addTo(map);
-    
-                    // Add popup with information
+
                     circle.bindPopup(`
                         <strong>Location:</strong> ${report.location}<br>
                         <strong>Type:</strong> ${report.type}
@@ -446,16 +415,13 @@
         }
 
         // Initialize Hotspot Map
-        // Dynamically inject the hotspot data from Django into JavaScript
-var hotspotsData = JSON.parse('{{ hotspot | escapejs }}');
+        var hotspotsData = JSON.parse('{{ hotspot | escapejs }}');
 
-// Initialize the map
-        var hotspotMap = L.map('hotspot-map').setView([22.5726, 88.3639], 12); // Set default coordinates
+        var hotspotMap = L.map('hotspot-map').setView([22.5726, 88.3639], 12);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
         }).addTo(hotspotMap);
 
-        // Loop through each hotspot and add markers to the map
         hotspotsData.forEach(function(hotspot) {
             L.marker([hotspot.lat, hotspot.lng])
                 .addTo(hotspotMap)
@@ -468,7 +434,7 @@ var hotspotsData = JSON.parse('{{ hotspot | escapejs }}');
                 L.marker([hotspot.lat, hotspot.lng], {
                     icon: L.divIcon({
                         className: 'custom-icon',
-                        html: '<div style="background:green; width:12px; height:12px; border-radius:50%;"></div>',
+                        html: '<div style="background:#d4fc79; width:12px; height:12px; border-radius:50%;"></div>', /* Neon Hotspot Color */
                         iconSize: [12, 12]
                     })
                 }).addTo(hotspotMap).bindPopup('<strong>Predicted Crime Hotspot</strong>');
@@ -477,6 +443,6 @@ var hotspotsData = JSON.parse('{{ hotspot | escapejs }}');
             console.error("Error parsing hotspot data:", e);
         }
     </script>
-    
+
 </body>
 </html>
