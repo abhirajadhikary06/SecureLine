@@ -1,4 +1,5 @@
 {% load static %}
+{% csrf_token %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -252,6 +253,7 @@
 <body>
     <section class="section">
         <div class="container">
+            <!-- Filter Section -->
             <div class="filter-section">
                 <form method="get">
                     <div class="field">
@@ -272,34 +274,44 @@
                 </form>
             </div>
 
+            <!-- Reports Section -->
             <div class="reports-section">
                 <h1 class="title">List of Crime Reports</h1>
-
                 <div class="heading-divider"></div>
                 <div class="buttons">
                     <a class="button is-link" href="{% url 'report_submission' %}">Submit a Report</a>
                     <a class="button is-light" href="{% url 'home' %}">Home</a>
                 </div>
-
                 <div class="box">
                     {% for report in reports %}
                         <article class="media">
                             <figure class="media-left">
                                 <p class="image is-64x64">
-                                    <img class="is-rounded" src="/static/images/profile_pictures/{{ report.random_image }}" alt="Profile">
+                                    <img class="is-rounded" src="{% static 'images/profile_pictures/' %}{{ report.random_image }}" alt="Profile">
                                 </p>
                             </figure>
                             <div class="media-content">
                                 <div class="content">
                                     <div class="report-header">
-                                        <span><b>{{ report.location }}</b></span>
-                                        <span><b>{{ report.harassment_type }}</b></span>
-                                        <span><b>{{ report.date|date:"M. j, Y" }}</b></span>
+                                        <span><b>{{ report.location }}</b></span> |
+                                        <span><b>{{ report.harassment_type }}</b></span> |
+                                        <span><b>{{ report.date|date:"M. j, Y" }}</b></span> |
                                         <span><b>{{ report.time|time:"g:i a" }}</b></span>
                                     </div>
                                     <p class="report-description">
                                         {{ report.description }}
                                     </p>
+                                    <div class="upvote-section">
+                                        <form method="post" class="upvote-form">
+                                            {% csrf_token %}
+                                            <button type="button" class="button is-primary upvote-btn" data-report-id="{{ report.id }}">
+                                                👍 Upvote
+                                            </button>
+                                        </form>
+                                        <span id="upvote-count-{{ report.id }}" class="tag is-info">
+                                            {{ report.upvotes }} Upvotes
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </article>
@@ -309,10 +321,57 @@
         </div>
     </section>
 
+    <!-- Footer Section -->
     <section>
         <footer>
             <p>Made with <span>❤️</span> by <b>Quantum Coders</b> team</p>
         </footer>
     </section>
+
+    <!-- JavaScript for Upvote Feature -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the CSRF token from the hidden input field
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+            // Add click event listeners to all upvote buttons
+            document.querySelectorAll(".upvote-btn").forEach(button => {
+                button.addEventListener("click", function () {
+                    // Get the report ID from the button's data attribute
+                    const reportId = this.getAttribute("data-report-id");
+        
+                    // Send a POST request to the server
+                    fetch(`/upvote/${reportId}/`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": csrfToken,  // Include the CSRF token
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            console.error("Server responded with status:", response.status);
+                            return response.text().then(text => { throw new Error(text); });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status === "success") {
+                            // Update the upvote count dynamically
+                            document.getElementById(`upvote-count-${reportId}`).innerText = `${data.upvotes} Upvotes`;
+                        } else if (data.status === "already_upvoted") {
+                            alert("You have already upvoted this report.");
+                        } else {
+                            alert("An error occurred while processing your request.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("An error occurred while processing your request.");
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>

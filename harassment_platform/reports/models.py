@@ -37,6 +37,7 @@ class HarassmentReport(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     latitude = models.FloatField(null=True, blank=True)  # New field for latitude
     longitude = models.FloatField(null=True, blank=True)  # New field for longitude
+    upvotes = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.location} - {self.harassment_type}"
@@ -48,3 +49,10 @@ class PredictedHotspot(models.Model):
 
     def __str__(self):
         return f"Predicted Hotspot at ({self.latitude}, {self.longitude})"
+
+class Upvote(models.Model):
+    ip_address = models.GenericIPAddressField(blank=True, null=True)  # Store the user's IP address
+    report = models.ForeignKey(HarassmentReport, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('ip_address', 'report')  # Ensure one IP can only upvote a report once

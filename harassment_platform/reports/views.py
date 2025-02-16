@@ -1,14 +1,47 @@
 import os, random
 from django.shortcuts import render, redirect
-from .models import HarassmentReport
+from .models import HarassmentReport, Upvote
 from .forms import HarassmentReportForm
 from geopy.geocoders import Nominatim
 import json
 from scipy.stats import gaussian_kde
 #from reports.crime_prediction import predict_crime_hotspot  # ✅ Absolute Import
 import numpy as np  # Add this line at the top
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
+from .models import HarassmentReport, Upvote
 
+def upvote_report(request, report_id):
+    if request.method == "POST":
+        try:
+            # Retrieve the report
+            report = get_object_or_404(HarassmentReport, id=report_id)
+            
+            # Get the user's IP address
+            ip_address = request.META.get('REMOTE_ADDR')
+            if not ip_address:
+                return JsonResponse({'status': 'error', 'message': 'Unable to determine IP address.'}, status=400)
+            
+            # Check if the user has already upvoted this report
+            if Upvote.objects.filter(ip_address=ip_address, report=report).exists():
+                return JsonResponse({'status': 'already_upvoted', 'upvotes': report.upvotes})
+            
+            # Add upvote
+            Upvote.objects.create(
+                ip_address=ip_address,
+                report=report
+            )
+            report.upvotes += 1
+            report.save()
+            
+            return JsonResponse({'status': 'success', 'upvotes': report.upvotes})
+        
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        
 def predict_crime_hotspot():
     # Get all reports with latitude & longitude
     reports = HarassmentReport.objects.exclude(latitude=None, longitude=None)
